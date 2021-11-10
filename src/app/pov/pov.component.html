@@ -1,0 +1,273 @@
+<p></p>
+<div  *ngIf="!afficherformulaire">
+<div class="container col-md-11 postion" *ngIf="!modalPov">
+  <div class="panel panel-primary">
+    <div class="panel-heading">les Povs</div>
+    <div class="panel-body">
+
+<!--tableau de liste de POV-->
+      <h3>Liste Povs</h3>
+      <table class="table col-md-5" >
+        <thead>
+        <tr class="info">
+          <th>Libelle</th>
+          <th>Client</th>
+          <th>Appliance</th>
+          <th>Compte</th>
+          <th>Description</th>
+          <th>Ingenieur Cybersecurite</th>
+          <th>Analyse Cybersecurite</th>
+          <th>Date de Début </th>
+          <th>Date de Fin</th>
+          <th>Modifier</th>
+          <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table" *ngFor="let c of pov" >
+          <td >{{c.libelle}}</td>
+          <td>{{c.client?.libelle}}</td>
+          <td >{{c.appliance?.libelle}}</td>
+          <td >{{c.compte}}</td>
+          <td >{{c.description}}</td>
+          <td >{{c.ingenieurCybersecurite}}</td>
+          <td>{{c.analyseCybersecurite}}</td>
+          <td >{{c.datededebut|date:'yyyy-mm-dd'}}</td>
+          <td>{{c.datedefin|date:'yyyy-mm-dd'}}</td>
+          <td><button class="btn btn-default" (click)="miseAjourPov(c)">Edit</button></td>
+          <td><button class="btn btn-default" (click)="supprimerPov(c.id)" >Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="alert alert-success" role="alert" *ngIf="validationMsgDisplay">
+        <strong>Success!</strong> Un nouvel pov a été bien ajouté avec succès!
+      </div>
+
+      <div class="alert alert-info" role="alert" *ngIf="validationModificationDisplay">
+        <strong>Edit !</strong> Modification effectué !
+      </div>
+
+      <div class="alert alert-warning" role="alert" *ngIf="annulerModificationDisplay">
+        <strong>Modification annuler</strong>!
+      </div>
+
+      <div class="alert alert-warning" role="alert" *ngIf="annulerAjoutDisplay">
+        <strong>Ajout annuler</strong>!
+      </div>
+      <button type="submit" class="btn btn-success" (click)="ajouterformulaire()">Ajouter un nouvel Pov</button>
+
+
+    </div>
+
+<!--formulaire d'ajout-->
+      <!--
+        <form (ngSubmit)="ajouterPov(f)" #f=ngForm  >
+           <h3>Ajouter Povs</h3>
+           <div class="form-group ">
+             <label for="libelle">Libelle:</label>
+             <input type="text" class="form-control" id="libelle" ngModel name="libelle" required>
+           </div>
+
+           <div class="form-group ">
+             <label for="compte">Compte Manager:</label>
+             <input type="text" class="form-control" id="compte"  ngModel name="compte" required>
+           </div>
+           <div class="form-group ">
+             <label for="description">Description:</label>
+             <input type="text" class="form-control"  id="description" ngModel name="description" required>
+           </div>
+           <div class="form-group ">
+             <label for="ingenieur_cybersecurite">Ingenieur Cybersecurite:</label>
+             <input type="text" class="form-control" id="ingenieur_cybersecurite"  ngModel name="ingenieurCybersecurite" required>
+           </div>
+
+           <div class="form-group ">
+             <label for="analyse_cybersecurite">Analyse Cybersecurite:</label>
+             <input type="text" class="form-control" id="analyse_cybersecurite"  ngModel name="analyseCybersecurite" required>
+           </div>
+
+           <div class="form-group ">
+             <label for="date">Date de debut:</label>
+             <input type="date" class="form-control" id="date"  ngModel name="datededebut" required>
+           </div>
+
+           <div class="form-group ">
+             <label for="datefin">Date de Fin:</label>
+             <input type="date" class="form-control" id="datefin"  ngModel name="datedefin" required>
+           </div>
+
+
+           <div class="form-group ">
+             <label for="clients">Client:</label>
+             <select ngModel id="clients" name="client">
+              <option *ngFor="let clts of client" [ngValue]="clts" class="col-md-9">{{clts.libelle}}</option>
+          </select>
+        </div>
+
+        <div class="form-group ">
+          <label for="appliance">Appliance:</label>
+          <select ngModel id="appliance" name="appliance">
+           <option *ngFor="let aps of appliance" [ngValue]="aps" class="col-md-9">{{aps.libelle}}</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid">Ajouter</button>
+
+          <div class="alert alert-danger" role="alert" *ngIf="errorMsgDisplay">
+            La date de fin ne doit pas être inférieure à la date de début !
+          </div>
+
+
+      </form>
+ -->
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="container col-md-4 postionM" *ngIf="modalPov">
+  <div class="panel panel-primary">
+    <div class="panel-heading">modifier les Povs</div>
+    <div class="panel-body">
+
+      <!--modification des information des pov-->
+      <div>
+        <div   *ngIf="povModification" >
+          <h3>Modifier les Povs</h3>
+          <div class="form-group ">
+            <label for="modifierlibelle">Libelle:</label>
+            <input type="text" class="form-control" id="modifierlibelle" [(ngModel)]="povModification.libelle"  name="libelle">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiercompte">Compte:</label>
+            <input type="text" class="form-control" id="modifiercompte"  [(ngModel)]="povModification.compte" name="compte">
+          </div>
+
+
+          <div class="form-group ">
+            <label for="modifierdescription">Description:</label>
+            <input type="checkbox" class="checkbox disabled" id="modifierdescription" [(ngModel)]="povModification.description" name="description">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifieringenieur_cybersecurite">Ingenieur Cyber:</label>
+            <input type="text" class="form-control" id="modifieringenieur_cybersecurite" [(ngModel)]="povModification.ingenieurCybersecurite" name="ingenieurCybersecurite">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiermodifieranalyse_cybersecurite">Analyse Cybersecurite:</label>
+            <input type="text" class="form-control" id="modifiermodifieranalyse_cybersecurite" [(ngModel)]="povModification.analyseCybersecurite" name="analyseCybersecurite">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiermodifierdate">Date de debut:</label>
+            <input type="date" class="form-control" id="modifiermodifierdate" [(ngModel)]="povModification.datededebut"  ngModel name="datededebut">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiermodifierdatefin">Date de Fin:</label>
+            <input type="date" class="form-control" id="modifiermodifierdatefin"  [(ngModel)]="povModification.datedefin" name="datedefin">
+          </div>
+
+          <div class="form-group">
+            <label for="modifiermodifierappliance">Appliance:</label>
+            <select [(ngModel)]="povModification.appliance" name="appliance" id="modifiermodifierappliance">
+                <option  [ngValue]="povModification.appliance"  class="col-md-3">{{povModification.appliance.libelle}}</option>
+                  <ng-container *ngFor="let appliances of appliance">
+                    <option *ngIf="appliances.id!=povModification.appliance.id" [ngValue]="appliances">
+                      {{appliances.libelle}}
+                    </option>
+
+                  </ng-container>
+
+            </select>
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiermodifierclient">Client:</label>
+            <select [(ngModel)]="povModification.client" name="client" id="modifiermodifierclient" >
+                <option [ngValue]="povModification.client" class="col-md-3" >{{povModification.client.libelle}}</option>
+              <ng-container *ngFor="let clients of client">
+                <option *ngIf="clients.id!=povModification.client.id" [ngValue]="clients">{{clients.libelle}}</option>
+
+              </ng-container>
+            </select>
+          </div>
+          <button (click)="modificationPov(povModification.id,povModification)" class="btn btn-success">Update</button>
+          <button  class="btn btn-success postionbutton" (click)="annulerformulairedemodification()">Annuler</button>
+          <div class="alert alert-danger" role="alert" *ngIf="errorMsgDisplay">
+            La date de fin ne doit pas être inférieure à la date de début !
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="container col-md-4 postionM" *ngIf="afficherformulaire">
+  <div class="panel panel-primary">
+    <div class="panel-heading">ajouter les Povs</div>
+    <div class="panel-body">
+
+      <form (ngSubmit)="ajouterPov(f)" #f=ngForm  >
+        <h3>Ajouter Povs</h3>
+        <div class="form-group ">
+          <label for="libelle">Libelle:</label>
+          <input type="text" class="form-control" id="libelle" ngModel name="libelle" required>
+        </div>
+
+        <div class="form-group ">
+          <label for="compte">Compte Manager:</label>
+          <input type="text" class="form-control" id="compte"  ngModel name="compte" required>
+        </div>
+        <div class="form-group ">
+          <label for="description">Description:</label>
+          <input type="text" class="form-control"  id="description" ngModel name="description" required>
+        </div>
+        <div class="form-group ">
+          <label for="ingenieur_cybersecurite">Ingenieur Cybersecurite:</label>
+          <input type="text" class="form-control" id="ingenieur_cybersecurite"  ngModel name="ingenieurCybersecurite" required>
+        </div>
+
+        <div class="form-group ">
+          <label for="analyse_cybersecurite">Analyse Cybersecurite:</label>
+          <input type="text" class="form-control" id="analyse_cybersecurite"  ngModel name="analyseCybersecurite" required>
+        </div>
+
+        <div class="form-group ">
+          <label for="date">Date de debut:</label>
+          <input type="date" class="form-control" id="date"  ngModel name="datededebut" required>
+        </div>
+
+        <div class="form-group ">
+          <label for="datefin">Date de Fin:</label>
+          <input type="date" class="form-control" id="datefin"  ngModel name="datedefin" required>
+        </div>
+
+
+        <div class="form-group ">
+          <label for="clients">Client:</label>
+          <select ngModel id="clients" name="client">
+            <option *ngFor="let clts of client" [ngValue]="clts" class="col-md-9">{{clts.libelle}}</option>
+          </select>
+        </div>
+
+        <div class="form-group ">
+          <label for="appliance">Appliance:</label>
+          <select ngModel id="appliance" name="appliance">
+            <option *ngFor="let aps of appliance" [ngValue]="aps" class="col-md-9">{{aps.libelle}}</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid">Ajouter</button>
+        <button type="button" class="btn btn-success postionbutton" (click)="annulerformulaire()" >Annuler</button>
+        <div class="alert alert-danger" role="alert" *ngIf="errorMsgDisplay">
+          La date de fin ne doit pas être inférieure à la date de début !
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

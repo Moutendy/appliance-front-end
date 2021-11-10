@@ -1,0 +1,72 @@
+<p></p>
+<div class="container col-md-5 postion" *ngIf="!booleanajout">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Type Appliances</div>
+    <div class="panel-body" *ngIf="!booleanmodification">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Identifiant</th>
+            <th>Type Appliance</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let c of typesAppliance" >
+            <td>{{c.id}}</td>
+            <td>{{c.libelle}}</td>
+            <td><button class="btn btn-default" (click)="miseAjour(c)" >Edit</button></td>
+            <td *ngIf="c.id"><button class="btn btn-default" (click)="suppression(c.id)">Delete</button></td>
+          </tr>
+          </tbody>
+        </table>
+      <button class="btn btn-default" (click)="ajouter()" >Ajouter un Type d'Appliance</button>
+    </div>
+  </div>
+
+  <div *ngIf="booleanmodification">
+  <table class="table table-striped" *ngIf="typesApplianceid">
+    <thead>
+    <tr>
+      <th>Modifier Type d'Appliance</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr >
+    <td> <input class="form-control" [(ngModel)]="typesApplianceid.libelle"></td>
+    </tr>
+    </tbody>
+    <td><button class="btn btn-default" (click)="getid(typesApplianceid.id,typesApplianceid)" >Update</button>
+      <button class="btn btn-default positionbuton" (click)="annuler()" >Annuler</button></td>
+
+  </table>
+  </div>
+</div>
+
+
+
+<div class="container col-md-5 postion"  *ngIf="booleanajout">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Ajouter Type d'Appliance</div>
+    <div class="panel-body">
+
+      <!-- Formulaire-->
+      <form (ngSubmit)="postType(f)" #f=ngForm *ngIf="!modal">
+        <div class="form-group">
+          <label >Type d'Appliance:</label>
+          <input type="text" class="form-control"  name="libelle" ngModel required/>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid" >Submit</button>
+        <button type="button" class="btn btn-success positionbuton" (click)="annulermodification()" >Annuler</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

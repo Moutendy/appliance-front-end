@@ -1,0 +1,155 @@
+<p></p>
+<!--formulaire d'ajout *ngIf="modalformulaireTableau"-->
+<div *ngIf="modalformulaireTableau">
+<div class="container col-md-4 postion">
+  <div class="panel panel-primary" >
+    <div class="panel-heading" >Ajouter Un nouveau Contact</div>
+    <div class="panel-body">
+
+<div>
+      <form (ngSubmit)="ajouterContact(f)" #f=ngForm  >
+        <h3>Ajouter Contacts</h3>
+        <div class="form-group ">
+          <label for="nom">Nom:</label>
+          <input type="text" class="form-control" id="nom" ngModel name="nom" required>
+        </div>
+
+        <div class="form-group ">
+          <label for="prenom">Prenom:</label>
+          <input type="text" class="form-control" id="prenom"  ngModel name="prenom" required>
+        </div>
+        <div class="form-group ">
+          <label for="tel">Numero de Telephone:</label>
+          <input type="tel" class="form-control" id="tel" ngModel name="telephone" required>
+        </div>
+        <div class="form-group ">
+          <label for="fonction">Fonction:</label>
+          <input type="text" class="form-control" id="fonction"  ngModel name="fonction" required>
+        </div>
+
+
+        <div class="form-group ">
+          <label for="client">Client:</label>
+            <select ngModel id="client" name="client">
+              <option *ngFor="let clt of client" [ngValue]="clt">{{clt.libelle}}</option>
+            </select>
+        </div>
+        <div class="form-group ">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email"  ngModel name="email" required>
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-success" [disabled]="!f.valid">Ajouter</button>
+
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-success btn-group postionbouton" (click)="annulerAjouter()" >Annuler</button>
+        </div>
+      </form>
+</div>
+
+
+    </div>
+</div>
+
+</div>
+</div>
+<!--tableau d'affichage des contactes-->
+<p></p>
+
+  <!--modification de formulaire-->
+  <div *ngIf="editupdate">
+<div class="container col-md-4 postion" *ngIf="contactModification">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modifier des Contact</div>
+    <div class="panel-body">
+
+      <div>
+        <div >
+          <h3>Modifier les Contacts</h3>
+          <div class="form-group ">
+            <label for="modifiernom">Nom:</label>
+            <input type="text" class="form-control" id="modifiernom" [(ngModel)]="contactModification.nom" name="nom">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifierprenom">Prenom:</label>
+            <input type="text" class="form-control" id="modifierprenom"  [(ngModel)]="contactModification.prenom" name="prenom">
+          </div>
+          <div class="form-group ">
+            <label for="modifiertelephone">Numero de Telephone:</label>
+            <input type="tel" class="form-control" id="modifiertelephone" [(ngModel)]="contactModification.telephone" name="telephone">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiertelephone">Fonction:</label>
+            <input type="text" class="form-control" id="modifierfonction" [(ngModel)]="contactModification.fonction" name="fonction">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifierclient_id">Client:</label>
+            <select [(ngModel)]="contactModification.client" name="modifierclient" id="modifierclient_id" class="form-select" aria-label="Default select example">
+
+                <option  [ngValue]="contactModification.client" class="form-control">{{contactModification.client.libelle}}</option>
+
+
+            </select>
+          </div>
+
+          <div class="form-group ">
+            <label for="modifieremail">Email:</label>
+            <input type="email" class="form-control" id="modifieremail" [(ngModel)]="contactModification.email" name="email">
+          </div>
+          <button (click)="modifierContact(contactModification.id,contactModification)" class="btn btn-success">Update</button>
+          <button  class="btn btn-success postionbouton" (click)="annulerModification()">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+
+<div *ngIf="!modalformulaireTableau">
+<div class="container postionTable" *ngIf="!editupdate">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Tableau des Contact</div>
+    <div class="panel-body">
+      <h3>Liste de Contacts</h3>
+      <table class="table table-striped" >
+
+        <thead>
+        <tr class="info">
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Fonction</th>
+          <th>Client</th>
+          <th>Email</th>
+          <th>Numero de telephone</th>
+          <th>Modifier</th>
+          <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table" *ngFor="let c of contact" >
+          <td >{{c.nom}}</td>
+          <td>{{c.prenom}}</td>
+          <td >{{c.fonction}}</td>
+          <td >{{c.client?.libelle}}</td>
+          <td >{{c.email}}</td>
+          <td >{{c.telephone}}</td>
+          <td><button class="btn btn-default" (click)="miseAjourContact(c)">Edit</button></td>
+          <td><button class="btn btn-default" (click)="supprimerContact(c.id)" >Delete</button></td>
+
+        </tr>
+        <tr class="table" >  <td><button class="btn success" (click)="formulaireTable()" >Ajouter un Nouveau Contact</button></td></tr>
+      </table>
+
+    </div>
+
+  </div>
+
+
+</div>
+</div>

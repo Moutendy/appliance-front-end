@@ -1,0 +1,137 @@
+<p></p>
+<div *ngIf="!afficherformulaire">
+<div class="container col-md-6 postion" *ngIf="!modalSuivie">
+  <div class="panel panel-primary">
+    <div class="panel-heading">liste  Suivie</div>
+    <div class="panel-body">
+      <h3>Suivie</h3>
+      <table class="table col-md-5" border="1">
+        <thead>
+        <tr class="info">
+          <th>Offre Commercial</th>
+          <th>Montant</th>
+          <th>Type de Prestation</th>
+          <th>Compte Rendu</th>
+          <th>Pov</th>
+          <th>Modifier</th>
+          <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table" *ngFor="let c of suivie">
+          <td >{{c.offreCommerciale}}</td>
+          <td>{{c.montant}}</td>
+          <td >{{c.typeprestation?.libelle}}</td>
+          <td >{{c.compteRendu}}</td>
+          <td >{{c.pov?.libelle}}</td>
+          <td><button class="btn btn-default" (click)="miseAjourSuivie(c)">Edit</button></td>
+          <td><button class="btn btn-default" (click)="supprimerSuivie(c.id)" >Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-default"  (click)="afficherformulaireajout()" >Ajouter un suivie</button>
+
+    </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+<div *ngIf="modalSuivie">
+<div class="container col-md-5 postion">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modifier Un Suivie</div>
+    <div class="panel-body">
+
+      <div   *ngIf="suivieModification" >
+        <h3>Modifier Suivie</h3>
+        <div class="form-group ">
+          <label for="modifiernom">Offre de Commerce:</label>
+          <input type="checkbox" class="checkbox-inline" id="modifiernom" [(ngModel)]="suivieModification.offreCommerciale" name="offreCommerciale">
+        </div>
+
+        <div class="form-group ">
+          <label for="modifierMontant">Montant:</label>
+          <input type="text" class="form-control" id="modifierMontant"  [(ngModel)]="suivieModification.montant" name="montant">
+        </div>
+        <div class="form-group ">
+          <label for="modifiertypeprestation">Type de Prestation:</label>
+          <select [(ngModel)]="suivieModification.typeprestation" name="typeprestation" id="modifiertypeprestation" >
+
+              <option  [ngValue]="suivieModification.typeprestation" class="col-md-6">{{suivieModification.typeprestation.libelle}}</option>
+                <ng-container *ngFor="let typep of Types">
+                  <option *ngIf="typep.id!=suivieModification.typeprestation.id" [ngValue]="typep">{{typep.libelle}} </option>
+                </ng-container>
+
+          </select>
+        </div>
+
+        <div class="form-group ">
+          <label for="modifiercompteRendu">Compte Rendu:</label>
+          <input type="text" class="form-control" id="modifiercompteRendu" [(ngModel)]="suivieModification.compteRendu" name="compteRendu">
+        </div>
+
+        <div class="form-group ">
+          <label for="modifierpov">Pov:</label>
+          <select [(ngModel)]="suivieModification.pov" name="pov" id="modifierpov" >
+              <option  [ngValue]="suivieModification.pov" class="col-md-6">{{suivieModification.pov.libelle}}</option>
+             <ng-container *ngFor="let povs of Pov">
+               <option *ngIf="povs.id!=suivieModification.pov.id" [ngValue]="povs">{{povs.libelle}}</option>
+             </ng-container>
+          </select>
+        </div>
+        <button (click)="modifierSuivie(suivieModification.id,suivieModification)" class="btn btn-success">Update</button>
+        <button class="btn btn-success postionbutton" (click)="annuler()">Annuler</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+<div *ngIf="afficherformulaire">
+  <div class="container col-md-5 postion" >
+    <div class="panel panel-primary">
+      <div class="panel-heading">Ajouter un Suivie</div>
+      <div class="panel-body">
+        <form (ngSubmit)="ajouterSuivie(f)" #f=ngForm  >
+          <h3>Ajouter Suivies</h3>
+
+          <div class="form-group ">
+            <label for="offreCommerciale">Offre Commercial:</label>
+            <input type="checkbox" class="checkbox-inline" id="offreCommerciale" ngModel name="offreCommerciale">
+          </div>
+          <div class="form-group ">
+            <label for="montant">Montant:</label>
+            <input type="number" class="form-control" id="montant"  ngModel name="montant" required>
+
+          </div>
+
+
+          <div class="form-group ">
+            <label for="typedeprestation">Type de Prestation:</label>
+            <select ngModel id="typedeprestation" name="typeprestation" required>
+              <option *ngFor="let tp of Types" [ngValue]="tp">{{tp.libelle}}</option>
+            </select>
+          </div>
+
+
+          <div class="form-group ">
+            <label for="compteRendu">Compte Rendu:</label>
+            <input type="text" class="form-control" id="compteRendu"  ngModel name="compteRendu" required>
+          </div>
+
+          <div class="form-group ">
+            <label for="pov">Pov:</label>
+            <select ngModel id="pov" name="pov" required>
+              <option *ngFor="let povs of Pov" [ngValue]="povs">{{povs.libelle}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success" [disabled]="!f.valid">Ajouter</button>
+          <button class="btn btn-success postionbutton" (click)="annulerformulaire()">Annuler</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

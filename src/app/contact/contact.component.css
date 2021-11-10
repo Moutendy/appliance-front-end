@@ -1,0 +1,23 @@
+.postion
+{
+  position: absolute;
+  left: 450px;
+  top: 80px;
+}
+
+.postionTable
+{
+  position: absolute;
+  left: 80px;
+  top: 70px;
+}
+.postionbouton
+{
+  position: relative;
+  left: 5px;
+  bottom: 0px;
+}
+
+
+
+

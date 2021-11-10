@@ -1,0 +1,10 @@
+.postion{
+  position: absolute;
+  left: 350px;
+  top: 100px;
+}
+.positionbuton
+{
+  position: relative;
+  left: 4px;
+}

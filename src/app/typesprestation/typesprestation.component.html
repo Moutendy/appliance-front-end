@@ -1,0 +1,95 @@
+<p></p>
+<!--*ngIf="!modalPrestation" -->
+<div class="container col-md-6 postion"    *ngIf="!booleanajout">
+  <div class="panel panel-primary">
+    <div class=" panel panel-heading">Type de Prestation</div>
+    <div class=" panel panel-body" *ngIf="!booleanmodification">
+      <!--Table d'affichage-->
+      <table class="table table-striped" >
+        <thead>
+        <tr class="info">
+          <th>Identifiant</th>
+          <th>Type de Prestation</th>
+          <th>Modifier les Types de Prestation</th>
+          <th> Supprimer Type de Prestation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of typesPrestation">
+          <td>{{c.id}}</td>
+          <td>{{c.libelle}}</td>
+          <td><button class="btn btn-default" (click)="miseAjourPrestation(c)" >Edit</button></td>
+          <td><button class="btn btn-default" (click)="supprimerTypePrestati(c.id)" >Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-default"  type="button" (click)="ajouterformulairedajouter()" >Ajouter un nouveau Type de prestation</button>
+
+
+      <!--formulaire d'ajout-->
+
+      <!--
+      <form (ngSubmit)="postTypePrestatio(f)" #f=ngForm *ngIf="!modalPrestation">
+
+        <div class="form-group">
+          <label for="libelle">Type de Prestation:</label>
+          <input type="text" class="form-control" id="libelle" ngModel name="libelle" required>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid">Submit</button>
+      </form>-->
+
+    </div>
+  </div>
+</div>
+
+<div class="container col-md-6 postion"  *ngIf="booleanajout">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Type de Prestation</div>
+    <div class="panel-body">
+      <!--formulaire d'ajout-->
+
+      <form (ngSubmit)="postTypePrestatio(f)" #f=ngForm >
+
+        <div class="form-group">
+          <label for="libelle">Type de Prestation:</label>
+          <input type="text" class="form-control" id="libelle" ngModel name="libelle" required>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid">Submit</button>
+        <button class="btn btn-success positionbuton"  type="button" (click)="annuler()" >Annuler</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container col-md-6 postion"  *ngIf="booleanmodification">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Type de Prestation Modification</div>
+    <div class="panel-body">
+      <!-- formulaire modification-->
+
+
+        <table class="table table-striped" *ngIf="typesPrestationid">
+          <thead>
+          <tr>
+            <th>Modifier les type de prestation</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr >
+            <td> <input class="form-control" [(ngModel)]="typesPrestationid.libelle"></td>
+          </tr>
+          </tbody>
+
+          <td><button class="btn btn-default" (click)="modifierTypedePrestatio(typesPrestationid.id,typesPrestationid)" >Update</button>
+            <button class="btn btn-default positionbuton"  type="button" (click)="annuler()" >Annuler</button></td>
+
+        </table>
+      </div>
+    </div>
+  </div>

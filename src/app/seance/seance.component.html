@@ -1,0 +1,120 @@
+<p></p>
+<div *ngIf="!afficherformulaire">
+<div class="container col-md-5 postion" *ngIf="!modalSeance">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Liste  Seance</div>
+    <div class="panel-body" >
+
+
+      <h3>Seance</h3>
+      <table class="table col-md-5" border="1">
+        <thead>
+        <tr class="info">
+          <th>Date de la Seance</th>
+          <th>Resumer</th>
+          <th>Participant</th>
+          <th>Pov</th>
+          <th>Modifier</th>
+          <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table" *ngFor="let c of seance">
+          <td >{{c.dateSeance|date:'yyyy-mm-dd'}}</td>
+          <td>{{c.resumer}}</td>
+          <td >{{c.participant}}</td>
+          <td >{{c.pov?.libelle}}</td>
+          <td><button class="btn btn-default" (click)="miseAjourSeance(c)">Edit</button></td>
+          <td><button class="btn btn-default" (click)="supprimerSeance(c.id)" >Delete</button></td>
+        </tr>
+        </tbody>
+      </table>
+      <td><button class="btn btn-default" (click)="ajouterleformuliare()" >Ajouter un Seance</button></td>
+
+
+    </div>
+
+
+
+
+    </div>
+  </div>
+</div>
+
+<div class="container col-md-5 postion" *ngIf="modalSeance">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modification Une Seance</div>
+    <div class="panel-body">
+      <div >
+        <div   *ngIf="seanceModification" >
+          <h3>Modifier les Seances</h3>
+          <div class="form-group ">
+            <label for="modifierdateSeance">Date de la Seance:</label>
+            <input type="datetime-local" class="form-control" id="modifierdateSeance" [(ngModel)]="seanceModification.dateSeance" name="dateSeance">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifierResumer">Resumer:</label>
+            <input type="text" class="form-control" id="modifierResumer"  [(ngModel)]="seanceModification.resumer" name="resumer">
+          </div>
+
+
+          <div class="form-group ">
+            <label for="modifierparticipant">Participant:</label>
+            <input type="text" class="form-control" id="modifierparticipant" [(ngModel)]="seanceModification.participant" name="participant">
+          </div>
+
+          <div class="form-group ">
+            <label for="modifierpov">Pov:</label>
+            <select [(ngModel)]="seanceModification.pov" name="pov" id="modifierpov" >
+
+                <option  [ngValue]="seanceModification.pov" class="col-md-6">{{seanceModification.pov.libelle}}</option>
+              <ng-container *ngFor="let povs of Pov">
+                <option *ngIf="povs.id!=seanceModification.pov.id" [ngValue]="povs">{{povs.libelle}}</option>
+
+              </ng-container>
+
+            </select>
+          </div>
+          <button (click)="modifierSeance(seanceModification.id,seanceModification)" class="btn btn-success">Update</button>
+          <button  class="btn btn-success postionbutton" (click)="annulerleformuliaremodification()">Annuler</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<div class="container col-md-5 postion" *ngIf="afficherformulaire">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Ajouter Une Seance</div>
+    <div class="panel-body" >
+      <form (ngSubmit)="ajouterSeance(f)" #f=ngForm  *ngIf="!modalSeance">
+        <h3>Ajouter Seance</h3>
+
+        <div class="form-group ">
+          <label for="dateSeance">Date de Seance:</label>
+          <input type="date" class="form-control" id="dateSeance" ngModel name="dateSeance" required>
+        </div>
+        <div class="form-group ">
+          <label for="Resumer">Resumer:</label>
+          <input type="text" class="form-control" id="Resumer"  ngModel name="resumer" required>
+        </div>
+        <div class="form-group ">
+          <label for="participant">Participant:</label>
+          <input type="text" class="form-control" id="participant"  ngModel name="participant" required>
+        </div>
+        <div class="form-group ">
+          <label for="pov">Pov:</label>
+          <select ngModel id="pov" name="pov" required>
+            <option *ngFor="let povs of Pov" [ngValue]="povs">{{povs.libelle}}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid">Ajouter</button>
+        <button type="button" class="btn btn-success postionbutton" (click)="annulerleformuliare()">Annuler</button>
+      </form>
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,161 @@
+<p></p>
+<div *ngIf="!booleanajout">
+<div class="container col-md-5 postion"  *ngIf="!modifierinfo">
+<div class="panel panel-primary">
+
+  <div class="panel-heading">Liste des clients</div>
+  <div class="panel-body" >
+
+
+
+    <table class="table table-striped">
+      <thead>
+      <tr class="info">
+        <th>Libelle</th>
+        <th>Activite</th>
+        <th>Secteur</th>
+        <th>Modifier</th>
+        <th>Supprimer</th>
+      </tr>
+      </thead>
+      <tbody >
+      <tr class="table" *ngFor="let c of client ">
+        <td >{{c.libelle}}</td>
+        <td>{{c.activite}}</td>
+        <td >{{c.secteur}}</td>
+        <td><button class="btn btn-default" (click)="miseAjourClient(c)" >Edit</button></td>
+            <td>
+            <button class="btn btn-default" (click)="supprimerClient(c.id)" [disabled]="hasPOV(c.id)">Delete</button>
+            </td>
+
+
+      </tr>
+      <tr class="table"> <td><button class="btn btn-default" (click)="ajouterformulairedajouter()">Ajouter un nouveau Client</button></td></tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+  </div>
+    <!-- formulaire de modification-->
+<!--
+<div *ngIf="modalClient">
+    <div   *ngIf="clientModification" >
+      <h3>Modifier les Clients</h3>
+      <div class="form-group ">
+        <label for="modifierlibelle">Libelle:</label>
+        <input type="text" class="form-control" id="modifierlibelle" [(ngModel)]="clientModification.libelle" name="libelle" >
+      </div>
+
+      <div class="form-group ">
+        <label for="modifiersecteur">Secteur:</label>
+        <input type="text" class="form-control" id="modifiersecteur"  [(ngModel)]="clientModification.secteur" name="secteur">
+      </div>
+      <div class="form-group ">
+        <label for="modifieractivite">Activite:</label>
+        <input type="text" class="form-control" id="modifieractivite" [(ngModel)]="clientModification.activite" name="activite">
+      </div>
+      <button (click)="modifierClient(clientModification.id,clientModification)" class="btn btn-success">Update</button>
+    </div>
+</div>-->
+
+  </div>
+</div>
+
+</div>
+
+<!--
+<div class="container col-md-5 postion"  >
+  <div class="panel panel-primary">
+    <div class="panel-heading"></div>
+    <div class="panel-body" *ngIf="modifierinfo">
+      <div *ngIf="modalClient">
+        <div   *ngIf="clientModification" >
+          <h3>Modifier les Clients</h3>
+          <div class="form-group ">
+            <label for="modifierlibelle">Libelle:</label>
+            <input type="text" class="form-control" id="modifierlibelle" [(ngModel)]="clientModification.libelle" name="libelle" >
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiersecteur">Secteur:</label>
+            <input type="text" class="form-control" id="modifiersecteur"  [(ngModel)]="clientModification.secteur" name="secteur">
+          </div>
+          <div class="form-group ">
+            <label for="modifieractivite">Activite:</label>
+            <input type="text" class="form-control" id="modifieractivite" [(ngModel)]="clientModification.activite" name="activite">
+          </div>
+          <button (click)="modifierClient(clientModification.id,clientModification)" class="btn btn-success">Update</button>
+          <button  class="btn btn-success positionbuton" (click)="annulerModification()">Annuler</button>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </div>
+-->
+
+
+<div *ngIf="booleanajout">
+  <div class="container col-md-5 postion">
+    <div class="panel panel-primary">
+
+      <div class="panel-heading">Ajouter Clients</div>
+      <div class="panel-body" >
+  <form (ngSubmit)="ajouterClient(f)" #f=ngForm  >
+    <h3>Ajouter Clients</h3>
+    <div class="form-group ">
+      <label for="libelle">Libelle:</label>
+      <input type="text" class="form-control" id="libelle" ngModel name="libelle" required>
+    </div>
+
+    <div class="form-group ">
+      <label for="secteur">Secteur:</label>
+      <input type="text" class="form-control" id="secteur"  ngModel name="secteur" required>
+    </div>
+    <div class="form-group ">
+      <label for="activite">Activite:</label>
+      <input type="text" class="form-control" id="activite" ngModel name="activite" required>
+    </div>
+    <button  type="submit" class="btn btn-success" [disabled]="!f.valid">Ajouter</button>
+    <button  type="button" class="btn btn-success positionbuton" (click)="annuler() ">Annuler</button>
+  </form>
+</div>
+    </div>
+  </div>
+</div>
+
+<div class="container col-md-5 postion"  *ngIf="modifierinfo">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Modifier les Clients</div>
+    <div class="panel-body" >
+      <div *ngIf="modalClient">
+        <div   *ngIf="clientModification" >
+          <h3>Modifier les Clients</h3>
+          <div class="form-group ">
+            <label for="modifierlibelle">Libelle:</label>
+            <input type="text" class="form-control" id="modifierlibelle" [(ngModel)]="clientModification.libelle" name="libelle" >
+          </div>
+
+          <div class="form-group ">
+            <label for="modifiersecteur">Secteur:</label>
+            <input type="text" class="form-control" id="modifiersecteur"  [(ngModel)]="clientModification.secteur" name="secteur">
+          </div>
+          <div class="form-group ">
+            <label for="modifieractivite">Activite:</label>
+            <input type="text" class="form-control" id="modifieractivite" [(ngModel)]="clientModification.activite" name="activite">
+          </div>
+          <button (click)="modifierClient(clientModification.id,clientModification)" class="btn btn-success">Update</button>
+          <button  class="btn btn-success positionbuton" (click)="annulerModification()">Annuler</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
